@@ -1,0 +1,70 @@
+BİL470 / BİL570 Makine Öğrenmesi
+Proje Tanımlama Raporu
+
+Grup Üyeleri:
+- Emirhan Gül
+- Efe Arda Uzunova
+- Mete Oktar
+
+1. Proje Tanımı
+Bu projenin amacı, klinik ve demografik değişkenleri kullanarak bir bireyin inme (stroke) geçirme olasılığını tahmin eden makine öğrenmesi modelleri geliştirmektir. Dünya Sağlık Örgütü’ne göre inme, dünya genelinde en yaygın ikinci ölüm nedeni olarak kabul edilmektedir. Bu nedenle, risk faktörlerinin doğru şekilde analiz edilmesi, erken teşhis ve önleyici tedbirlerin alınabilmesi açısından büyük önem taşımaktadır.
+
+Proje kapsamında sağlanan veri seti kullanılarak bir sınıflandırma problemi ele alınacaktır. Yaş, cinsiyet, hipertansiyon, kalp hastalığı, ortalama glikoz seviyesi ve sigara kullanımı gibi değişkenler yardımıyla bireylerin inme geçirip geçirmeyeceği tahmin edilmeye çalışılacaktır. Geliştirilen modellerin performansı, inme riskini ne kadar doğru öngörebildiklerine göre değerlendirilecektir.
+
+2. Literatür Taraması
+İnme tahmini, makine öğrenmesi alanında önemli bir araştırma konusudur. Literatürde yapılan çalışmalar, farklı algoritmaların performanslarını ve veri ön işleme yöntemlerini karşılaştırarak hangi modelin daha başarılı sonuçlar verdiğini incelemiştir.
+
+Bu konuda referans alınan önemli çalışmalardan biri, Van Gysel ve arkadaşlarının (2011) yayımladığı “A Machine Learning Approach for Stroke Prediction” başlıklı makaledir (https://dl.acm.org/doi/abs/10.1145/1835804.1835830). Söz konusu çalışmada, geleneksel istatistiksel modellerden biri olan Cox oransal tehlike modeli ile Destek Vektör Makineleri (SVM) karşılaştırılmıştır. Araştırmacılar, “conservative mean” adını verdikleri yeni bir öznitelik seçimi yöntemi önermiş ve bu yöntemi SVM ile birleştirerek daha yüksek ROC eğrisi altındaki alan (AUC) değeri elde etmişlerdir. Çalışma, eksik veri yönetimi ve öznitelik seçimi gibi konularda önemli bir metodolojik temel sunmaktadır.
+
+Benzer şekilde, farklı çalışmalarda da makine öğrenmesi yöntemlerinin klinik verilerle birleştirilerek inme tahmininde yüksek doğruluk elde ettiği görülmüştür. Bu çalışmaların genel bulguları, yaş, glikoz seviyesi ve hipertansiyon gibi değişkenlerin en belirleyici faktörler arasında yer aldığını göstermektedir. Proje kapsamında yapılacak modelleme süreci, bu literatürden elde edilen bilgiler doğrultusunda şekillendirilecektir.
+
+3. Veri Seti
+Kaynak: Kaggle – Stroke Prediction Dataset (https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset)
+Alan: Sağlık / Nöroloji
+Veri Seti Boyutu: 5110 gözlem (satır) ve 12 öznitelik (sütun)
+
+Veri Setindeki Değişkenler:
+id: Benzersiz hasta kimliği
+gender: Cinsiyet ("Male", "Female", "Other")
+age: Yaş
+hypertension: Hipertansiyon durumu (1: Var, 0: Yok)
+heart_disease: Kalp hastalığı durumu (1: Var, 0: Yok)
+ever_married: Evlilik durumu ("Yes", "No")
+work_type: Çalışma türü ("Private", "Self-employed", "Govt_job", "children", "Never_worked")
+Residence_type: Yaşadığı yer ("Urban", "Rural")
+avg_glucose_level: Ortalama kan şekeri seviyesi
+bmi: Vücut kitle indeksi
+smoking_status: Sigara kullanma durumu ("formerly smoked", "never smoked", "smokes", "Unknown")
+stroke: Hedef değişken. İnme geçirip geçirmediği (1: Evet, 0: Hayır)
+
+Veri Ön İşleme Planı:
+- Eksik bmi değerleri ortalama veya medyan yöntemiyle tamamlanacaktır.
+- smoking_status değişkenindeki “Unknown” değerleri uygun bir stratejiyle yönetilecektir.
+- Kategorik değişkenler One-Hot Encoding yöntemiyle sayısal hale getirilecektir.
+- Sayısal değişkenler (age, avg_glucose_level, bmi) StandardScaler yöntemiyle ölçeklenecektir.
+- Sınıf dengesizliği durumunda SMOTE yöntemi veya sınıf ağırlıklandırması kullanılacaktır.
+
+4. Kullanılacak Platform ve Kütüphaneler
+Programlama Dili: Python 3.x
+Çalışma Ortamı: Jupyter Notebook, Google Colab veya Kaggle Notebook
+
+Kütüphaneler:
+- Pandas, NumPy: Veri ön işleme ve analiz
+- Matplotlib, Seaborn: Görselleştirme
+- Scikit-learn: Model oluşturma, eğitim ve değerlendirme
+- Imbalanced-learn (SMOTE): Veri dengesizliğinin giderilmesi
+- XGBoost / LightGBM (isteğe bağlı): Gelişmiş topluluk (ensemble) modelleri
+
+5. Planlanan Modelleme Süreci
+1. Keşifsel Veri Analizi (EDA): Veri dağılımlarının incelenmesi, aykırı değerlerin tespiti ve değişkenler arası korelasyonların görselleştirilmesi.
+2. Model Geliştirme: En az üç farklı makine öğrenmesi algoritması uygulanacaktır: Lojistik Regresyon, Karar Ağacı (Decision Tree), Rastgele Orman (Random Forest), (Opsiyonel) SVM veya XGBoost. Veriler %80 eğitim – %20 test olarak ayrılacak ve 5 katlı çapraz doğrulama kullanılacaktır.
+3. Model Değerlendirme: Doğruluk (Accuracy), F1 skoru, Hassasiyet (Precision), Duyarlılık (Recall) ve ROC-AUC gibi metrikler hesaplanacak, sonuçlar karşılaştırılacaktır.
+
+6. Görev Dağılımı
+Emirhan Gül: Veri temizleme, eksik verilerin doldurulması, veri ölçekleme ve görselleştirme
+Efe Arda Uzunova: Model seçimi, eğitim ve hiperparametre optimizasyonu
+Mete Oktar: Model performanslarının değerlendirilmesi, karşılaştırılması ve raporun yazımı
+Tüm grup üyeleri, sonuçların yorumlanması ve raporun son halinin hazırlanmasında birlikte çalışacaktır.
+
+7. Beklenen Sonuçlar
+Proje sonucunda, klinik ve demografik değişkenlere dayalı olarak inme riskini yüksek doğrulukla tahmin edebilen bir makine öğrenmesi modeli geliştirilmesi hedeflenmektedir. Farklı algoritmaların performansları karşılaştırılarak en uygun model belirlenecek, ayrıca hangi değişkenlerin tahmin sürecinde en etkili olduğu analiz edilecektir. Bu sayede, erken teşhis ve önleyici sağlık hizmetleri açısından uygulanabilir bulgular elde edilmesi beklenmektedir.
