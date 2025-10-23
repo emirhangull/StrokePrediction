@@ -1,0 +1,262 @@
+﻿BIL 470 / BIL 570 Machine Learning 
+Project Descriptions
+Important Notes and Advice
+* Participating in or taking inspiration from a Kaggle competition is highly encouraged. You can browse Kaggle for ideas and datasets.
+* For implementing classical models (DT, RF, SVM etc.) scikit-learn and for the deep learning models pytorch is recommended.
+* BIL470 Projects are recommended to be from the Analytics track. 
+* BIL570 Projects needs to be from the Research track or high quality applied science ideas
+* If you think you have very good ideas that do not fit the format here, talk to me very early, I might approve it. 
+* If you realize (mid-semester) that your project proposal is not feasible, talk to me for a plan-B.
+* Mixing BIL470 and BIL570 students is not recommended but if you do, BIL570 rules apply.
+* Make sure all your reports are formatted as a formal document.
+
+
+Analytics(Applied) Track  (2 or 3(preferred) students)
+* Finding a rich dataset or set of datasets that can be processed to infer useful conclusions
+* Conducting a detailed analysis on the data and and visualize appropriately
+* Determining multiple models to train (including the ones not covered in the course)
+* Designing and implementing your models
+* Basic visualization of the output metrics
+* Commenting on inherent differences and results of the models
+* Writing a paper in an academic paper format
+
+
+Research Track (at most and preferably 2 students)
+* Reading multiple papers in specific problem space
+* Proposing a new idea that might possibly improve the scalability or performance metrics
+* Implementing the idea
+* Running tests, collecting performance metrics and comparing against the baseline
+* Writing a research paper which can ideally be submitted to a conference or workshop 
+* Although desired results may fail to perform better than the baseline, observed Level of effort will be considered for grading the project outputs.
+
+
+
+
+
+
+________________
+
+
+Checkpoints  (upload on uzak.etu.edu.tr)
+
+
+-End of Week 4 (Oct 13, 23:59)
+Submit 
+* One paragraph clear description of the project
+* Short literature search (titles and abstracts of the articles that you see relevant or useful)
+* Source(URL or scraping method) of the dataset
+* Description of the dataset (domain, columns, rough estimate of the size… etc.)
+* Platforms, python packages, frameworks, tools, cloud systems, hardware you are planning to use
+* Planned division of tasks
+
+
+-End of Week 8 (Nov 10, 23:59)
+Submit a Status Report describing 
+* State of data collection (ideally should be done by this time)
+* Do a very thorough EDA(Exploratory Data Analysis) of your datasets. You will submit your python notebooks, (save notebooks with outputs) 
+* List of decided models to be worked on (at least 2-3 approaches) and reasoning behind
+* Paper with abstract, related work, brief planned methodology and any other proposed implementation sections
+
+
+- Final Report (Dec 14, 23:59)
+* Paper Must be in two column IEEE format
+* Submit All material(code, data source if possible) project implementation/platforms details and paper
+* Will schedule demo days that each group will have 20 mins to present(demo) their work
+
+
+DATASETS
+* https://www.resmiistatistik.gov.tr/
+* https://datasetsearch.research.google.com/
+* https://www.kdnuggets.com/datasets/index.html
+* https://www.kaggle.com/datasets
+* https://www.icpsr.umich.edu/web/pages/
+* https://dataverse.harvard.edu/
+* https://networkrepository.com/soc.php
+* https://evds2.tcmb.gov.tr/index.php?/evds/serieMarket
+* https://paperswithcode.com/datasets  (now with huggingface)
+* http://snap.stanford.edu/data/index.html
+* https://ieee-dataport.org/datasets
+* https://courses.cs.washington.edu/courses/cse547/21sp/data.html
+* https://developers.google.com/freebase 
+* https://www.wikidata.org/wiki/Wikidata:Main_Page
+* https://datasf.org/opendata/
+* https://webdatacommons.org/productcorpus/index.html
+
+
+      About Web scraping: https://medium.com/analytics-vidhya/scrapy-vs-selenium-vs-beautiful-soup-for-web-scraping-24008b6c87b8
+
+
+You may inspire from the list of Columbia Bigdata projects database
+List
+
+
+
+
+End-to-End ML Project Lifecycle CheckList
+1. Problem Definition & Data Understanding
+* Define the objective clearly (classification, regression, clustering, etc.)
+* Understand the domain and task constraints
+* Identify target variable(s) and evaluation metrics
+* Explore available data sources
+2. Data Collection & Exploration
+* Data acquisition (structured, unstructured, external APIs, sensors, etc.)
+* Exploratory Data Analysis (EDA): distributions, correlations, missing values
+* Outlier detection and handling
+3. Data Preprocessing
+* Handle missing data (imputation, deletion, special value treatment)
+* Encode categorical variables (one-hot, label encoding, embeddings)
+* Normalize/standardize numerical features (MinMax, Z-score, Robust scaling)
+* Feature engineering (domain knowledge, interactions, aggregates)
+* Dimensionality reduction (PCA, t-SNE, UMAP, autoencoders) if relevant
+4. Dataset Splitting
+* Train/validation/test split (or cross-validation)
+* Stratification if needed (imbalanced datasets)
+* Ensure no data leakage (temporal, duplicate samples, etc.)
+5. Model Selection & Training
+* Baseline model established for comparison
+* Choose appropriate algorithm(s) (linear models, tree-based, neural networks, etc.)
+* Hyperparameter tuning strategy (grid search, random search, Bayesian optimization)
+* Early stopping or checkpointing to prevent overfitting
+6. Model Evaluation
+* Use correct metrics (accuracy, precision/recall/F1, AUC, RMSE, etc.)
+* Evaluate on both validation and test sets
+* Check for overfitting/underfitting (learning curves, validation vs. training loss)
+* Perform cross-validation if applicable
+
+7. Model Robustness & Efficiency
+   * Regularization (L1/L2, dropout, weight decay, etc.)
+   * Overfitting checks (complexity control, pruning, ensembling)
+   * Adversarial robustness testing (optional)
+   * Resource efficiency (model pruning, quantization, distillation)
+
+8. Deployment Considerations (BONUS)
+      * Save model in reproducible format (pickle, ONNX, TorchScript, etc.)
+      * Consider inference efficiency (batching, hardware acceleration, latency)
+      * Monitor model drift after deployment (data distribution changes)
+      * Version control for both data and models
+9. Model Optimization  (BONUS)
+      * Pruning (weight pruning, neuron pruning, structured pruning)
+      * Quantization (post-training quantization, quantization-aware training)
+      * Trade-off analysis: accuracy vs. speed/size/energy
+
+
+
+
+BIL 470/570 PROJECT REPORT CONTENT AND PREPARATION GUIDE
+The project report is the document where you present the results of the work you carried out throughout the semester within the scope of the project. Below you will find guiding information regarding the tasks you will perform in the project and how to present the outputs produced as a result of these tasks. The project report should consist of the following sections:
+(Depending on the work done and the type of problem, some parts may be omitted or new additions may be made.)
+________________
+
+
+1. Abstract
+2. Introduction – Problem Definition
+      * Motivation
+
+      * Classification / Regression
+
+      * Purpose / Objectives
+
+      * Performance Metrics (e.g., 90% correct classification, etc.)
+
+3. (If applicable) Literature Review
+4. Dataset, Data Characteristics, Features
+         * Data Source
+
+            * URL link, in-house data, etc.
+
+               * Dataset
+
+                  * Brief description of features and dataset
+
+                     * Preprocessing steps (You may also create this as a separate section.)
+Explain the data processing steps you carried out if you are not using a ready-made dataset (or if the dataset you use is raw).
+
+                        * (If applicable) Image processing steps
+
+                        * Audio processing
+
+                        * Data processing, etc.
+
+                           * Feature descriptions
+
+                              * Erroneous or missing data
+
+                              * Structured / unstructured
+
+                              * Numerical values
+
+                                 * Ordinal data
+• Ranking, categorization
+
+                                 * Nominal data
+• Ordered? (e.g., weight, temperature)
+• Not comparable (e.g., vehicle license plate numbers)
+
+                                    * Non-numerical data
+
+                                       * Binary data (male/female – 0-1 or -1–1)
+
+                                       * Multi-class data
+• Ordered? (e.g., letter grades: AA, BA, BB, …)
+• Unordered? (e.g., tree types: pine, juniper, willow, …)
+
+                                       * Plain text data (words, tweets, texts, etc.)
+
+                                          * If feature selection or transformation was performed, provide details (e.g., PCA – Principal Component Analysis, ICA – Independent Component Analysis)
+
+                                          * Problem-specific feature extraction procedures
+
+                                          * Class distribution information
+
+                                             * Is the data balanced or imbalanced? Balance class counts in training data if necessary
+
+                                                * Data normalization, feature normalization (linear, normal, logarithmic, or custom transformation, etc.)
+
+                                                * Visual 2-D representation of the data (with class labels) – multidimensional data visualization (an example graph is provided below)
+
+                                                * Relationships among features
+
+                                                   * Correlations between features
+
+                                                   * Correlation of features with the outcome
+
+                                                   * Statistical parameters of class distributions (type of distribution: normal, stationary, Poisson, etc.)
+
+                                                   * Covariance matrix in case of normal distribution
+
+                                                      * Divide the dataset into clusters equal to the number of classes (clustering) (e.g., apply k-means after normalization). Compare this natural clustering with the real classes. (Here, too, results may be shown visually with 2-D representations including class labels.)
+
+5. Models Used
+                                                         * Training / cross-validation / test splits (e.g., 60/20/20)
+
+                                                         * Binary classification, multiclass, etc.
+
+                                                         * Short descriptions, methodologies, and literature information about the models used
+
+                                                         * Why were these models chosen?
+
+6. Test Results and Interpretations, Discussion
+                                                            * For classification: Confusion matrix, TP, TN, FP, FN
+
+                                                            * For regression: MSE, RMSE, E (Error), PE (Percent Error), AE (Absolute Error), APE (Absolute Percent Error), and other performance metrics
+
+                                                            * Comparison tables and graphs across models
+
+                                                            * Statistical accuracy and significance testing across models (e.g., t-test)
+
+                                                            * Results of running the same model 10–20 times and their statistical comparisons (statistical significance)
+
+                                                            * Which model performed better and why? Explanation required
+
+7. Conclusions
+                                                               * A brief summary of what was done in this study
+
+                                                               * What did we learn as a result? What did we gain? What was our contribution?
+
+                                                               * What was not done in the study? What were the reasons?
+
+                                                               * What could be future work?
+
+8. References
+Note:
+ The report length should be between 4–8 pages in IEEE conference paper format (Word or LaTeX). In addition, you may create an Appendices section and submit it separately from the paper. The appendix may include preprocessing details, feature selection, correlations, etc., as well as program code.
