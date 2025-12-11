@@ -1,0 +1,77 @@
+                       Stroke Prediction Ara Raporu
+Özet(Abstract)
+İnme (stroke), gelişmiş ülkelerde koroner damar hastalıkları ve kanserden sonra üçüncü en önemli ölüm ve birinci erişkin yeti yitimi nedenidir. Sağlık sektöründe, inmenin erken teşhisi, kalıcı hasarı ve mortalite oranlarını azaltmak için kritik bir öneme sahiptir. Bu çalışma, halka açık bir Kaggle veri setinde bulunan demografik, medikal ve yaşam tarzı verilerini kullanarak inme riskini tahmin eden makine öğrenmesi modelleri geliştirmeyi amaçlamaktadır. Projenin temel zorluğu, veri setinin doğasından kaynaklanan ve 'pozitif' sınıf (inme geçirenler) olan vakaların toplam veri setinin sadece yaklaşık %5'ini oluşturduğu "aşırı sınıf dengesizliği" (severe class imbalance) problemidir. Bu sorunun üstesinden gelmek için iki temel strateji benimsenmiş ve karşılaştırılmıştır: (1) Algoritma düzeyinde maliyet-duyarlı öğrenme (cost-sensitive learning), yani modellere class_weight veya scale_pos_weight gibi parametreler vererek azınlık sınıfının hatalarını daha ağır cezalandırmak; ve (2) Veri düzeyinde yeniden örnekleme (data-level resampling), yani eğitim setine SMOTE (Synthetic Minority Over-sampling Technique) uygulayarak sentetik olarak dengeli bir veri seti yaratmak. Bu stratejiler, endüstri standardı olan Logistic Regression (temel model), Random Forest (topluluk modeli) ve XGBoost (boosting modeli) algoritmaları üzerinde uygulanmıştır. Sınıf dengesizliği nedeniyle 'Accuracy' (doğruluk) metriğinin yanıltıcılığı göz önünde bulundurularak, model performansı birincil olarak Recall (Duyarlılık), F1-Score ve ROC-AUC metrikleri üzerinden değerlendirilmiştir. Çalışma, nadir görülen ancak kritik öneme sahip inme vakalarını en yüksek başarıyla tespit edebilen modeli ve metodolojiyi belirlemeyi hedeflemektedir.
+
+1. Veri Koleksiyonu Durumu (State of Data Collection)
+Proje planının ilk aşaması olan veri toplama, tanımlama ve hazırlık süreci başarıyla tamamlanmıştır.
+Proje, endüstri standardı bir benchmark veri seti olan ve Kaggle platformunda yayınlanan "Stroke Prediction Dataset" üzerine kurulmuştur. Bu veri seti, 5110 bireye ait anonimleştirilmiş kayıtlardan oluşmaktadır. Öznitelik (feature) uzayı, toplam 12 sütunu kapsamakta olup, age, hypertension, heart_disease, avg_glucose_level, bmi ve smoking_status gibi demografik ve medikal verileri içermektedir.
+Hedef değişken (target variable) stroke sütunudur; bu sütun 1 (hastanın inme geçirdiğini) veya 0 (hastanın inme geçirmediğini) belirten binary bir yapıdadır.
+
+
+
+2. Kapsamlı Veri Analizi (EDA)
+Kapsamlı bir Veri Analizi, Python (pandas, matplotlib, seaborn kütüphaneleri) kullanılarak ayrı bir Google Colab (Jupyter Notebook) dosyasında yürütülmüştür. Bu notebook, tüm analiz adımlarını, kodları ve üretilen görselleştirme çıktılarını içerecek şekilde bu rapora ek olarak teslim edilmektedir.
+Bu analizin amacı, verinin iç yapısını anlamak ve modelleme stratejisini belirlemektir. EDA sürecinde elde edilen ve metodolojiyi doğrudan şekillendiren temel bulgular aşağıda özetlenmiştir:
+Aşırı Sınıf Dengesizliği (Severe Class Imbalance): Projenin en kritik bulgusu, hedef değişken olan stroke dağılımındaki aşırı dengesizliktir. İnme geçiren 'pozitif' sınıf (stroke=1), toplam veri setinin sadece %4.87'sini (249 vaka) oluştururken, 'negatif' sınıf (stroke=0) verinin ezici çoğunluğu olan %95.13'ünü (4861 vaka) oluşturmaktadır. Bu durum, "doğruluk paradoksu" (accuracy paradox) olarak bilinen bir riski doğurur.
+Eksik ve Sorunlu Veri (Missing & Problematic Data):
+bmi (Eksik Veri): bmi (Vücut Kitle İndeksi) sütununda 201 adet (%3.9) eksik değer (NaN) saptanmıştır. bmi dağılımının sağa çarpık (right-skewed) bir yapıdadır.
+smoking_status (Bilinmeyen Veri): Bu kategorik sütunda, 'Unknown' (Bilinmiyor) olarak etiketlenmiş 1544 adet kayıt bulunmaktadır. Bu, toplam veri setinin %30.2'sini oluşturmaktadır.
+Öznitelik İlişkileri ve Korelasyon: Korelasyon analizi, stroke hedef değişkeni ile en güçlü pozitif ilişkinin beklendiği gibi age (yaş) özniteliğinde olduğunu ortaya koymuştur.  Age özniteliğinin, aynı zamanda  ever_married ve başka özniteliklerle de çeşitli derecelerde korelasyonlu olduğunu görmek mümkündür.
+3. Seçilen Modeller Listesi ve Sebepleri
+EDA'da tespit edilen "aşırı sınıf dengesizliği" problemi, model seçimindeki ana kriter olmuştur. Bu doğrultuda, bu dengesizlikle başa çıkma konusunda yerleşik mekanizmalara sahip farklı yaklaşımlar seçilmiştir:
+Logistic Regression (Temel Model - Baseline):
+Gerekçe: Hızlı, yorumlanabilir ve bir temel (baseline) performans oluşturmak için idealdir.
+Dengesizlik Yaklaşımı: class_weight='balanced' parametresi kullanılarak, azınlık sınıfı hataları daha ağır cezalandırılacaktır (cost-sensitive learning).
+Random Forest Classifier (Bagging Ensemble Modeli):
+Gerekçe: Yüksek doğruluk potansiyeline sahip, aşırı öğrenmeye (overfitting) karşı dirençli bir topluluk modelidir.
+Dengesizlik Yaklaşımı: Bu model de class_weight='balanced' parametresini destekler.
+
+XGBoost (Extreme Gradient Boosting) (Boosting Ensemble Modeli):
+Gerekçe: Yapısal (tabular) veriler üzerinde genellikle en yüksek tahmin performansını veren, endüstri standardı bir boosting algoritmasıdır.
+Dengesizlik Yaklaşımı: Bu problem için özel optimize edilmiş scale_pos_weight hiperparametresini sunar. Bu parametre, (Negatif Sınıf Sayısı / Pozitif Sınıf Sayısı) oranına (bizim durumumuzda 4861 / 249 ≈ 19.5) ayarlanarak, modelin azınlık sınıfını kaçırmaya (False Negatives) karşı son derece hassas hale gelmesi sağlanır.
+4. Makale Bölümleri
+İlgili Çalışmalar
+İnme (stroke) üzerine yapılan literatür taraması, hastalığın prognozunu etkileyen birçok değiştirilebilir risk faktörünü ortaya koymuştur. İnme, gelişmiş ülkelerde koroner damar hastalıkları ve kanserden sonra üçüncü en önemli ölüm ve birinci erişkin yeti yitimi nedenidir.
+Bu risk faktörleri arasında, kronik hipertansiyon (yüksek tansiyon) inme için değiştirilebilir en önemli risk faktörü olarak öne çıkmaktadır ve bu ilişki yaştan bağımsızdır. İlk inme sıklığı ile hem sistolik hem de diastolik kan basıncı arasındaki ilişkinin doğrusal olduğu bildirilmiştir.
+Benzer şekilde, diabetes mellitus (diyabet) aterotrombotik beyin enfarktüsü (iskemik inme) için bağımsız bir risk faktörü olarak tanımlanmıştır. Bu risk, diyabet hastalarında sıklıkla görülen hipertansiyon ile tam olarak açıklanamamaktadır. Ayrıca, diyabet geçmişi olsun veya olmasın, inme anında yüksek kan glukozuna (hiperglisemi) sahip olmanın, daha kötü bir prognoz, daha büyük lezyonlar ve daha belirgin nörolojik defisitler ile ilişkili olduğu gösterilmiştir.
+Bu temel faktörlere ek olarak, projemizde kullandığımız veri setinde de yer alan sigara kullanımı, obezite (yüksek bmi), dislipidemi ve kalp hastalıkları (heart_disease) da literatürde inme için önemli ve değiştirilebilir risk faktörleri olarak tanımlanmaktadır.
+
+
+
+
+
+
+
+
+Planlanan Yöntem
+Projenin uygulanması, iyi tanımlanmış bir makine öğrenmesi iş akışını (pipeline) takip edecektir:
+Veri Ön İşleme (Data Preprocessing):
+Eksik Veri Tamamlama (Imputation): bmi sütunundaki %3.9'luk eksik değerler, EDA'da tespit edilen sağa çarpık dağılım nedeniyle, aritmetik ortalama (mean) yerine verinin merkezi eğilimini daha iyi temsil eden medyan (median) değeri ile doldurulacaktır.
+'Unknown' Yönetimi: smoking_status sütununda bulunan ve veri setinin %30.2'sini oluşturan 'Unknown' (Bilinmiyor) değeri, ayrı bir kategori olarak ele alınacaktır. Bu değerler silinmeyecek veya rastgele doldurulmayacaktır, çünkü bu durumun kendisi (bilgi eksikliği) potansiyel olarak bir öznitelik değeri taşıyabilir.
+Kategorik Kodlama (Encoding): gender, work_type, smoking_status (ve 'Unknown' kategorisi) gibi nominal kategorik özellikler, One-Hot Encoding yöntemiyle ikili (binary) vektörlere dönüştürülecektir.
+Özellik Ölçeklendirme (Feature Scaling): age, avg_glucose_level, bmi gibi farklı aralıklardaki sayısal özellikler, StandardScaler kullanılarak ortalaması 0 ve standart sapması 1 olan bir dağılıma (Z-skoru) ölçeklendirilecektir.
+Dengesiz Veri Yönetim Stratejileri:
+Strateji A: Algoritmik Yaklaşım (Cost-Sensitive Learning): Modeller (Logistic Regression, Random Forest, XGBoost), class_weight='balanced' veya scale_pos_weight parametreleri kullanılarak, orijinal dengesiz veri seti üzerinde eğitilecektir.
+Strateji B: Veri Düzeyinde Yaklaşım (Resampling): Eğitim (train) verisine SMOTE (Synthetic Minority Over-sampling Technique) uygulanacaktır. SMOTE, azınlık sınıfı örneklerine sentetik yeni örnekler yaratarak veri setini dengeler.
+Model Değerlendirme (Model Evaluation):
+Yanıltıcı Metrik (Accuracy): 'Accuracy' (Doğruluk) metriği, modelin tüm vakalara '0' (inme yok) demesi durumunda bile %95'lik bir başarı oranı göstereceği için birincil değerlendirme metriği olarak kullanılmayacaktır.
+Odaklanılan Metrikler:
+Recall (Duyarlılık / Hassasiyet): TP / (TP + FN). Gerçekte '1' olan (inme geçiren) vakaların yüzde kaçını doğru tespit edebildiğimizi ölçer. Tıbbi teşhiste, bir hastayı kaçırmamak (False Negative) en önemli öncelik olduğundan, bu metrik projenin ana başarı kriteridir.
+F1-Score: 2 * (Precision * Recall) / (Precision + Recall). Precision ve Recall'un harmonik ortalamasıdır. İki metrik arasında bir denge arandığında kullanılır.
+ROC-AUC (Area Under the Curve): Modelin pozitif ve negatif sınıfları ayırma kapasitesini özetleyen genel bir metrik sağlar.
+
+Uygulama Araçları
+Proje, Python 3 programlama dili kullanılarak Google Colab bulut ortamında geliştirilecektir. İş akışı boyunca aşağıdaki kütüphanelerden aktif olarak yararlanılacaktır:
+Pandas: Veri yükleme, temizleme ve ön işleme işlemleri için.
+NumPy: Verimli sayısal operasyonlar için.
+Matplotlib & Seaborn: EDA sırasındaki tüm istatistiksel görselleştirmeler için.
+Scikit-learn (sklearn): Veri ön işleme (StandardScaler, OneHotEncoder), veri ayırma (train_test_split), temel modeller (LogisticRegression, RandomForestClassifier) ve değerlendirme metrikleri (f1_score, recall_score, roc_auc_score) için.
+XGBoost: Yüksek performanslı boosting modelini (XGBClassifier) uygulamak için.
+Imbalanced-learn (imblearn): Strateji B için gerekli olan SMOTE tekniğini uygulamak için.
+5. Kaynakça
+https://www.ahajournals.org/doi/epdf/10.1161/01.STR.19.8.1049
+https://www.researchgate.net/profile/Zeynep-Heperkan/publication/303702469_PeriPostmenopozal_osteopenik_kadinlarda_kalsiyumdan_zengin_diyet_ve_egzersizlerin_kemik_dongusune_etkisi/links/5912fd60a6fdcc963e7e9ef7/Peri-Postmenopozal-osteopenik-kadinlarda-kalsiyumdan-zengin-diyet-ve-egzersizlerin-kemik-doenguesuene-etkisi.pdf?__cf_chl_tk=Sd4z7fEQZly_rDL0_YK5Pw4AczdQrwhoEvPwI8w26qU-1762788400-1.0.1.1-0cv6KVpHbmE_g7_HisRGU0IhEHPAjeKgoY8i5KD9lwM#page=47
+https://www.tjn.org.tr/full-text-pdf/1633/eng
+
+
+
