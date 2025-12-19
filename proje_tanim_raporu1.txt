@@ -68,3 +68,62 @@ Tüm grup üyeleri, sonuçların yorumlanması ve raporun son halinin hazırlanm
 
 7. Beklenen Sonuçlar
 Proje sonucunda, klinik ve demografik değişkenlere dayalı olarak inme riskini yüksek doğrulukla tahmin edebilen bir makine öğrenmesi modeli geliştirilmesi hedeflenmektedir. Farklı algoritmaların performansları karşılaştırılarak en uygun model belirlenecek, ayrıca hangi değişkenlerin tahmin sürecinde en etkili olduğu analiz edilecektir. Bu sayede, erken teşhis ve önleyici sağlık hizmetleri açısından uygulanabilir bulgular elde edilmesi beklenmektedir.
+
+8. References
+[1] "fedesoriano," "Stroke Prediction Dataset," Kaggle, 2021. [Online]. Available: https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset. Accessed: Dec. 18, 2025.
+
+[2] L. Breiman, "Random Forests," Mach. Learn., vol. 45, no. 1, pp. 5–32, 2001.
+
+[3] T. Chen and C. Guestrin, "XGBoost: A Scalable Tree Boosting System," in Proc. ACM SIGKDD Int. Conf. Knowl. Discov. Data Min., 2016, pp. 785–794.
+
+[4] N. V. Chawla, K. W. Bowyer, L. O. Hall, and W. P. Kegelmeyer, "SMOTE: Synthetic Minority Over-Sampling Technique," J. Artif. Intell. Res., vol. 16, pp. 321–357, 2002.
+
+[5] D. W. Hosmer, S. Lemeshow, and R. X. Sturdivant, Applied Logistic Regression, 3rd ed. Hoboken, NJ, USA: Wiley, 2013.
+
+[6] F. Pedregosa, G. Varoquaux, A. Gramfort, et al., "Scikit-learn: Machine Learning in Python," J. Mach. Learn. Res., vol. 12, pp. 2825–2830, 2011.
+
+[7] G. Lemaître, F. Nogueira, and C. K. Aridas, "Imbalanced-learn: A Python Toolbox to Tackle the Curse of Imbalanced Datasets in Machine Learning," J. Mach. Learn. Res., vol. 18, no. 17, pp. 1–5, 2017.
+
+---
+
+APPENDICES
+
+A. Veri Ön İşleme Detayları
+A.1 Eksik Veri Analizi
+- BMI sütunundaki eksik değerlerin yüzdesinin belirlenmesi
+- Eksik verilerin ortalama, medyan ve ileri yöntemlerle doldurulması
+- Her yöntemin model performansına etkisinin karşılaştırılması
+
+A.2 Kategorik Değişkenlerin Kodlanması
+- Gender, work_type, Residence_type ve smoking_status değişkenleri için One-Hot Encoding uygulaması
+- Label Encoding vs. One-Hot Encoding performans karşılaştırması
+
+A.3 Öznitelik Ölçekleme
+- StandardScaler, MinMaxScaler ve RobustScaler yöntemlerinin karşılaştırması
+- Ölçekleme öncesi ve sonrası veri dağılımlarının görselleştirilmesi
+
+B. Korelasyon Analizi
+B.1 Pearson Korelasyon Matrisi
+- Tüm sayısal değişkenler arası korelasyonların hesaplanması ve ısı haritası ile gösterilmesi
+- Hedef değişken (stroke) ile diğer değişkenler arasındaki korelasyonların analiz edilmesi
+
+B.2 Öznitelik Önem Sırası
+- Random Forest ve XGBoost modellerinden elde edilen feature importance değerlerinin karşılaştırması
+- En önemli tahmin edicilerin belirlenmesi
+
+C. Model Performans Detayları
+C.1 Karışıklık Matrisi (Confusion Matrix)
+- Tüm modeller için True Positive, True Negative, False Positive, False Negative değerlerinin detaylı analizi
+
+C.2 ROC-AUC Eğrileri
+- Tüm modellerin ROC eğrilerinin karşılaştırmalı gösterimi
+
+C.3 Hiperparametre Ayarlaması Sonuçları
+- Grid Search ve Random Search yöntemlerinin sonuçları
+- En iyi hiperparametreler ve bunların model performansı üzerindeki etkileri
+
+D. Program Kodu
+D.1 Ana Analiz Kodunun Yapısı
+- analysis.ipynb dosyasında yer alan tüm Python kodları
+- Detaylı yorum (comments) ile açıklamalar
+- Fonksiyon tanımları ve sınıf yapıları
